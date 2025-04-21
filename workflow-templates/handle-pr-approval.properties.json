@@ -1,0 +1,12 @@
+{
+  "name": "Handle PR Approval",
+  "description": "This workflow is triggered when a pull request is approved. It is used for adding a random meme and notifying dependabot to squash and merge.",
+  "iconName": "git-pull-request",
+  "categories": [
+    "code-review",
+    "Automation"
+  ],
+  "filePatterns": [
+    ".github/dependabot.yml"
+  ]
+}
