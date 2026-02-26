@@ -1,0 +1,34 @@
+---
+name: Release GitHub Action
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          fetch-depth: 0
+
+      - name: Set up Git
+        uses: ChainReaction-LTD/setup-git-config@v1
+        with:
+          git-config-username: ${{ vars.GIT_CONFIG_USERNAME }}
+          git-config-email: ${{ vars.GIT_CONFIG_EMAIL }}
+          git-config-gpg-key-id: ${{ secrets.GPG_KEY_ID }}
+          git-config-gpg-key: ${{ secrets.GPG_KEY }}
+          git-config-gpg-key-passphrase: ${{ secrets.GPG_KEY_PASSPHRASE }}
+
+      # Assuming the release tag is in the format vX.Y.Z,
+      # we want to update the vX tag to point to the same commit as the new release tag.
+      - name: Update vX tag
+        run: |
+          UPDATED_VX_TAG=$(echo "${{ github.ref_name }}" | cut -d"." -f1)
+          git tag --force $UPDATED_VX_TAG -m "Version ${UPDATED_VX_TAG/v/}"
+          git push --force origin $UPDATED_VX_TAG

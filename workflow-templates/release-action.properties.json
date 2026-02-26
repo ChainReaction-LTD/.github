@@ -1,0 +1,12 @@
+{
+  "name": "Release GitHub Action",
+  "description": "A GitHub Action to automate the release process of a project.",
+  "icon": "tag",
+  "category": [
+    "GitHub Actions",
+    "Release Automation"
+  ],
+  "filePatterns": [
+    "action.yaml$"
+  ]
+}
